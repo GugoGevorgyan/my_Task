@@ -1,0 +1,143 @@
+body{
+    margin: 0 auto;
+}
+.right_thead{
+    width: 8in;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    background-color: #0f7bff;
+}
+.section{
+    width: 26.667in;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.thead{
+    width: 22.6in;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.min_section{
+    width: 15.8in;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    height: 400px;
+
+}
+.href{
+    text-decoration: none;
+}
+.white{
+    color: white;
+}
+h3{
+    color: #0f7bff;
+    margin: 0;
+}
+
+.Best_desktop{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.best_img{
+    width: 50%;
+    background-color: darkgray;
+}
+#one_main{
+    width: inherit;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.center{
+    width: inherit;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.sect_button{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+}
+.too_section{
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f5fcfd;
+}
+.too_sect_center{
+    width: inherit;
+    height: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.tree_section{
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+}
+.action{
+    width: 28%;
+    height: 300px;
+    border: 1px solid black;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.min_section_3{
+    width: 15.8in;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.features{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.fore_section{
+    width: inherit;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5fcfd;
+}
+.fore_p{
+    width: 180px;
+    display: flex;
+    flex-direction: column-reverse;
+}
+.fore_content{
+    width: 500px;
+    display: flex;
+    flex-direction: row;
+
+}
