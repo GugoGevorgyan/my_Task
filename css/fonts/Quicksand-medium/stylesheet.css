@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Quicksand';
+    src: url('Quicksand-Medium.eot');
+    src: url('Quicksand-Medium.eot?#iefix') format('embedded-opentype'),
+        url('Quicksand-Medium.woff2') format('woff2'),
+        url('Quicksand-Medium.woff') format('woff'),
+        url('Quicksand-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+

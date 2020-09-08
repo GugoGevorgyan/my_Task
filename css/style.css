@@ -24,24 +24,24 @@ body{
 }
 .thead{
     width: 1624px;
+    height: 50px;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
     margin-top: 25px;
 }
 .sign_up{
-    font-family: Quicksand;
-    font-size: 16px;
-    font-weight: bold;
-    width: 160px;
-    height: 60px;
-    color: #ffffff;
-    background-color: #0f7bff;
-    border: 1px solid white;
-    border-radius: 33px;
+    border-radius: 25px;
+    border: 2px solid #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 165px;
+    height: 50px;
+    color: #ffffff;
+    font-family: Quicksand;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .min_section{
@@ -57,11 +57,13 @@ body{
     text-decoration: none;
 }
 .white{
-    font-family: Quicksand;
+    font-family: 'Quicksand';
     color: white;
+
 }
-.h3{
-    font-family: Quicksand;
+.AppSon{
+    font-family: 'Quicksand';
+    font-weight: 700;
     font-size: 35px;
     color: #0f7bff;
     margin: 0;
@@ -85,8 +87,8 @@ body{
 .a_btn{
     width: 165px;
     height: 50px;
-    border-radius: 33px;
-    border: 1px solid #0f7bff;
+    border-radius: 25px;
+    border: 2px solid #0f7bff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -112,7 +114,7 @@ body{
 }
 
 .best_title{
-    font-family: Quicksand;
+    font-family: 'Quicksand';
     font-size: 36px;
     line-height: 24px;
     font-weight: bold;
@@ -124,12 +126,14 @@ body{
 .text_2, .text{
     font-family: Quicksand;
     font-size: 16px;
+    font-weight: 400;
     line-height: 27px;
     color: #929292;
 }
 #one_main{
     width: inherit;
-    background-image: url("Shape 1.jpg");
+    height: 800px;
+    background-image: url("../images/Shape 1.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -176,7 +180,8 @@ body{
     justify-content: space-evenly;
 }
 .medium{
-    font-family: Quicksand;
+    font-family: 'Quicksand';
+    font-weight: 500;
     font-size: 32px;
     line-height: 36px;
     color: #333333;
@@ -189,22 +194,29 @@ body{
     justify-content: center;
     align-items: center;
     background-color: #ffffff;
+    background-image: url("../images/3-layers.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 .action{
     /*box-sizing: border-box;*/
     width: 360px;
     height: 290px;
+    border-radius: 5px;
      /*border: 1px solid black;*/
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 20px 1px #8888883b;
 }
 .three_content{
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 835px;
+    /*height: 872px;*/
 }
 
 .min_section_3{
