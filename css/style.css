@@ -496,10 +496,6 @@ transition: all 0.3s;
     line-height: 27px;
 }
 
-.pricing_price{
-    color: #0f7bff;
-
-}
 .pricing__btn__1{
     width: 165px;
     height: 50px;
@@ -680,6 +676,8 @@ max-width: 158px;
     height: 75px;
 }
 
+.pricing_price,
+.footer_bottom__link > a:hover,
 .footer-list > li > a:hover,
 .footer-list > li > a.active {
     color: #0f7bff;
@@ -691,9 +689,7 @@ max-width: 158px;
 .footer_bottom__link {
     width: 348px;
 }
-.footer_bottom__link > a:hover{
-    color: #0f7bff;
-}
+
 .socialite{
     transform: translate(-460px, 165px);
     position: absolute;
@@ -771,7 +767,6 @@ max-width: 158px;
     }
 }
 
-
 @media all and (min-width: 992px) and (max-width: 1200px) {
 .container{
     width: 960px;
@@ -799,7 +794,6 @@ max-width: 158px;
         height:220px;
     }
 }
-
 
 @media all and (min-width: 768px) and (max-width: 991px) {
 .container{
@@ -912,4 +906,3 @@ max-width: 158px;
         height:170px;
     }
 }
-
