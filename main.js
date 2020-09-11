@@ -4,7 +4,7 @@ $('.owl-carousel').owlCarousel({
     nav:false,
     dots:true,
     responsive:{
-        0:{
+        400:{
             items:1
         },
         600:{
