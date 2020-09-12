@@ -9,6 +9,24 @@ body{
 li{
     list-style-type: none;
 }
+
+.menu__mobile{
+    display: flex;
+    flex-direction: column-reverse;
+    height: 200px;
+    justify-content: space-between;
+
+}
+.none{
+    display: none;
+}
+
+.menu__btn__mobile{
+    position: absolute;
+    transform: translateX(609px);
+    display: none;
+}
+
 .f_medium{
     font-family: 'Quicksand-medium';
 }
@@ -396,6 +414,14 @@ p[class="four_p"] > a{
     transform: translateY(-27%);
     /*transform: scale(1.5);*/
 }
+.owl-item:hover img {
+    height: 328px;
+    transition:all 0.3s;
+
+}
+.owl-nav{
+    display: none;
+}
 .owl-stage-outer{
     padding: 100px 0 0 0;
 }
@@ -696,83 +722,31 @@ max-width: 158px;
     width: 78px;
 }
 
-@media all and (max-width: 1199px) {
-.two_sect_center{
-    height: 800px;
-}
+@media all and (min-width: 992px) and (max-width: 1200px) {
+    #menu__mobile{
+        display: none;
+    }
+    #one_main {
+        background-size: contain;
+    }
 
-}@media all and (min-width: 300px) and (max-width: 1139px) {
+    .thead > ul{
+        width: 530px;
+        align-items: baseline;
+        display: flex;
+        flex-direction: row;
+    }
+
     .container{
         width: 960px;
     }
+
     .Screnshots{
         padding: 20px 20px  0;
     }
-    .Testimonials{
-        padding: 0;
-    }
-    .Testimonials__content > img:nth-child(3) {
-        width: 270px;
-        height: 270px;
-        transform: translate(212px, 57px);
-    }
-    .Testimonials__content > img:not(:nth-child(3)) {
-        width: 100px;
-        height: 100px;
-    }
-    .Testimonials__content > img:nth-child(1) {
-        transform: translate(-235px, -66px);
-    }
-    .Testimonials__content > img:nth-child(2) {
-        transform: translate(-200px, 42px);
-    }
-    .Testimonials__content > img:nth-child(4) {
-        transform: translate(-58px, -38px);
-    }
-    .Testimonials__content {
-        min-height: 400px;
-    }
-    .Testimonials__content_2 {
-        padding: 0 30px 0 0;
-    }
-    .blog__posts{
-   margin-left: 20px;
-    }
-    .Free_Trial, .footer_bottom {
-        padding: 40px 30px;
-    }
-    .logo {
-        padding: 0 35px;
-    }
-    .App_Features {
-        height: 950px;
-    }
-    .best_img{
-        min-height: 300px;
-    }
-}
-
-@media all and (min-width: 769px) and (max-width: 1100px) {
-    .blog__posts{
-        width: 45%;
-    }
-    #one_main {
-        padding: 140px 0 90px;
-    }
-.background{
-    background-color: antiquewhite;
-}
-    .Best_desktop_btn {
-        width: 135px;
-    }
-}
-
-@media all and (min-width: 992px) and (max-width: 1200px) {
-.container{
-    width: 960px;
-}
 
     .right_thead {
+        display: flex;
         width: 530px;
     }
     .footer_bottom > div {
@@ -795,13 +769,64 @@ max-width: 158px;
     }
 }
 
+
+@media all and (min-width: 1201px) and (max-width: 2000px) {
+.two_sect_center{
+    height: 800px;
+}
+    .thead > ul {
+        width: 570px;
+        align-items: baseline;
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+@media all and (min-width: 769px) and (max-width: 1100px) {
+    .blog__posts{
+        width: 45%;
+    }
+    .Screnshots{
+        padding: 20px 20px  0;
+    }
+
+    #one_main {
+        padding: 140px 0 90px;
+        background-size: contain;
+    }
+.background{
+    background-color: antiquewhite;
+}
+    .Best_desktop_btn {
+        width: 135px;
+    }
+}
+
+
 @media all and (min-width: 768px) and (max-width: 991px) {
 .container{
     width: 720px;
 }
-    .right_thead{
-        width: 500px;
+
+    .owl-item:hover img {
+        height: 275px;
     }
+
+    .menu__btn__mobile{
+        display: flex;
+    }
+    .Screnshots{
+        padding: 20px 20px  0;
+    }
+    .right_thead{
+        display: none;
+        width: 410px;
+    }
+    .sign_up {
+        width: 110px;
+        height: 40px;
+    }
+
     .logo__container2 {
         width: 400px;
     }
@@ -842,6 +867,24 @@ max-width: 158px;
 .container{
     width: 540px;
 }
+    .thead > ul{
+        display: none;
+    }
+    .owl-item:hover img {
+        height: 275px;
+    }
+
+    .menu__btn__mobile{
+        display: flex;
+    }
+
+    .Screnshots{
+        padding: 20px 20px  0;
+    }
+    .thead > ul{
+        display: none;
+    }
+
     .footer_bottom > div {
         width: 800px;
     }
@@ -874,7 +917,19 @@ max-width: 158px;
 
 
 @media all and (max-width: 575px) {
-.container{
+    .thead > ul{
+        display: none;
+    }
+
+    .menu__btn__mobile{
+        display: block;
+    }
+
+    .Screnshots{
+        padding: 20px 20px  0;
+    }
+
+    .container{
     width: 100%;
 }
     .footer_bottom > div {
