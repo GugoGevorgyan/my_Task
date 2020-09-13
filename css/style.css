@@ -1091,3 +1091,50 @@ p[class="four_p"] > a {
         height: 170px;
     }
 }
+
+
+@media all and (min-width: 300px) and (max-width: 1139px) {
+
+   .Testimonials{
+                padding: 0;
+            }
+    .Testimonials__content > img:nth-child(3) {
+                 width: 270px;
+                 height: 270px;
+                 transform: translate(212px, 57px);
+             }
+    .Testimonials__content > img:not(:nth-child(3)) {
+                 width: 100px;
+                 height: 100px;
+             }
+    .Testimonials__content > img:nth-child(1) {
+                 transform: translate(-235px, -66px);
+             }
+    .Testimonials__content > img:nth-child(2) {
+                 transform: translate(-200px, 42px);
+             }
+    .Testimonials__content > img:nth-child(4) {
+                 transform: translate(-58px, -38px);
+             }
+    .Testimonials__content {
+        min-height: 400px;
+    }
+
+    .Testimonials__content_2 {
+        padding: 0 30px 0 0;
+    }
+
+    .Free_Trial, .footer_bottom {
+        padding: 40px 30px;
+    }
+
+    .logo {
+        padding: 0 35px;
+    }
+    .App_Features {
+        height: 950px;
+    }
+    .socialite {
+        transform: translate(-421px, 165px);
+    }
+}
