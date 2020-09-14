@@ -1,0 +1,26 @@
+*{
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#field {
+    display: flex;
+    flex-wrap: wrap;
+    /*background: #9aa1a1;*/
+}
+
+.excel {
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+}
+.snake {
+    background: #ff2d23;
+}
