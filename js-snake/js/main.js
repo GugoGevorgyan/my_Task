@@ -1,19 +1,21 @@
 const field = document.getElementById('field');
 const [selectGame] = document.getElementsByClassName('select_game');
+const check = document.getElementById('check');
 
-selectGame.addEventListener('click',  (event) => {
+selectGame.addEventListener('click', (event) => {
     const size = Number(document.querySelector('input[name="snake"]:checked').value);
     createGamePlatform(size);
 });
 
-function createGamePlatform(size) {
+
+function createGamePlatform(size = 15) {
     const fieldSize = `${size * 20}px`;
     field.style.width = fieldSize;
     field.style.height = fieldSize;
     let x = 1;
     let y = size;
 
-    for (let i = 0; i < size**2; i += 1) {
+    for (let i = 0; i < size ** 2; i += 1) {
         const excel = document.createElement('div');
 
         if (x > size) {
@@ -27,28 +29,12 @@ function createGamePlatform(size) {
         field.appendChild(excel);
         x += 1;
     }
-
+    check.classList.add('display_none');
     const snake = new Snake(size);
+    const mouse = new Mouse(size);
 
     document.addEventListener('keyup', (event) => {
-        let keyCode = event.keyCode;
-        const keyUp = {
-            37: 'toLeft',
-            38:'toTop',
-            39: 'toRight',
-            40: 'toBottom'
-        };
-        let interval;
-
-        event = '1503';
-
-        if (keyUp[keyCode] && snake.snake.length) {
-            if (interval) clearInterval(interval);
-
-            interval = setInterval(() => {
-                snake[keyUp[keyCode]]()
-            }, 1000)
-        }
+        snake.move(event.keyCode);
     })
 }
 
@@ -56,47 +42,165 @@ class Snake {
     constructor(size) {
         this.size = size;
         this.snake = [];
-        this.direction = 'top';
+        this.interval = null;
+        this.direction = '';
         this.createSnake();
     }
 
+    move(snakeMove) {
+        const keyUp = {
+            37: 'toLeft',
+            38: 'toTop',
+            39: 'toRight',
+            40: 'toBottom'
+        };
+
+        switch (this.direction) {
+            case 'toLeft':
+                if (snakeMove === 37 || snakeMove === 39) {
+                    snakeMove = 6887;
+                }
+                break;
+            case 'toTop':
+                if (snakeMove === 40 || snakeMove === 38) {
+                    snakeMove = 6887;
+                }
+                break;
+            case 'toRight':
+                if (snakeMove === 37 || snakeMove === 39) {
+                    snakeMove = 6887;
+                }
+                break;
+            case 'toBottom':
+                if (snakeMove === 40 || snakeMove === 38) {
+                    snakeMove = 6887;
+                }
+                break;
+
+        }
+
+        if (keyUp[snakeMove] && this.snake.length) {
+            if (this.interval) {
+                clearInterval(this.interval);
+            }
+            this.interval = setInterval(() => {
+                this.direction = keyUp[snakeMove];
+                this[this.direction]();
+            }, 300)
+        }
+    }
+
     toBottom() {
-        const head = this.snake[this.snake.length - 1];
-        const x = head.getAttribute('posX');
-        const y = Number(head.getAttribute('posY')) - 1;
-
-        const isBorder = this.checkBorder(y);
-        if (isBorder) return this.boom();
-
-        const newHead = document.querySelector(`[posX="${x}"][posY="${y}"]`);
-        newHead.classList.add('snake');
-        this.snake.push(newHead);
-        this.snake.shift().classList.remove('snake')
-
+        const headBottom = this.snake[this.snake.length - 1];
+        const x = headBottom.getAttribute('posX');
+        const y = Number(headBottom.getAttribute('posY')) - 1;
+        this.achtionSnake(x, y);
     }
 
     toLeft() {
-
+        const headLeft = this.snake[this.snake.length - 1];
+        const x = Number(headLeft.getAttribute('posX')) - 1;
+        const y = Number(headLeft.getAttribute('posY'));
+        this.achtionSnake(x, y);
     }
 
     toRight() {
-
+        const headRight = this.snake[this.snake.length - 1];
+        const x = Number(headRight.getAttribute('posX')) + 1;
+        const y = Number(headRight.getAttribute('posY'));
+        this.achtionSnake(x, y);
     }
 
-    toTop(){
+    toTop() {
+        const headTop = this.snake[this.snake.length - 1];
+        const x = Number(headTop.getAttribute('posX'));
+        const y = Number(headTop.getAttribute('posY')) + 1;
+        this.achtionSnake(x, y);
+    }
 
+    achtionSnake(x, y) {
+        const isBorder = this.checkBorder(x, y);
+        if (isBorder) return this.boom();
+        const newHead = document.querySelector(`[posX="${x}"][posY="${y}"]`);
+        const isYourself = this.checkSnakeBorder(newHead);
+        if (isYourself) return this.boom();
+        const newMouse = this.mouseEat(newHead);
+        if (newMouse) {
+            new Mouse(this.size);
+        }
+        newHead.classList.add('snake');
+        this.snake.push(newHead);
+        this.snake.shift().classList.remove('snake');
     }
 
     boom() {
-        alert('krvar');
+        alert('DEFEAT');
+        this.snake.forEach(element => element.classList.remove('snake'));
+        let [mouse] = document.getElementsByClassName('mouse');
+        const excel = document.querySelectorAll('.excel');
+        const check = document.getElementById('check');
+        mouse.classList.remove('mouse');
+
+        excel.forEach(element => element.remove());
+        check.classList.remove('display_none');
+        this.snake = [];
+        this.interval = null;
+        this.direction = '';
+        clearInterval(this.interval);
     }
 
     createSnake() {
-        this.snake.push(document.querySelector(`[posX="7"][posY="8"]`));
-        console.log(this.snake);
+        const x = Math.ceil(this.size / 2) ;
+        this.snake.push(document.querySelector(`[posX="${x}"][posY="${x}"]`));
+        this.snake[0].classList.add('snake');
     }
 
-    checkBorder(num) {
-        return num === 0 || num > this.size;
+    checkBorder(x, y) {
+        return (x === 0 || x > this.size) || (y === 0 || y > this.size);
     }
+
+    checkSnakeBorder(snake) {
+        return snake.classList.contains('snake');
+    }
+
+    mouseEat(snake) {
+        if (snake.classList.contains('mouse')) {
+            snake.classList.remove('mouse');
+            snake.classList.add('snake');
+            this.addSnake(snake);
+            return snake;
+        }
+    }
+
+    addSnake(snakeNewHead) {
+        const lastHead = this.snake[this.snake.length - 1];
+        lastHead.classList.add('snake');
+        this.snake.push(lastHead);
+    }
+}
+
+class Mouse {
+    constructor(size) {
+        this.size = size;
+        this.mouse = '';
+        this.X = '';
+        this.Y = '';
+        this.generateMouseCoordinates();
+    }
+
+    generateMouseCoordinates() {
+        this.X = Math.round(Math.random() * (this.size - 1) + 1);
+        this.Y = Math.round(Math.random() * (this.size - 1) + 1);
+        this.createMouse();
+    }
+
+    createMouse() {
+        this.mouse = document.querySelector(`[posX="${this.X}"][posY="${this.Y}`);
+        while (this.mouse.classList.contains('snake')) {
+            this.generateMouseCoordinates();
+        }
+        this.mouse.classList.add('mouse');
+    }
+
+
 }

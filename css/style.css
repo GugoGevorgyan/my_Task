@@ -547,7 +547,7 @@ p[class="four_p"] > a {
 
 .pricing_btn {
     flex-direction: row;
-    width: 330px;
+    width: 100%;
     height: 50px;
     border-radius: 25px;
 }

@@ -13,7 +13,6 @@ body{
 #field {
     display: flex;
     flex-wrap: wrap;
-    /*background: #9aa1a1;*/
 }
 
 .excel {
@@ -23,4 +22,11 @@ body{
 }
 .snake {
     background: #ff2d23;
+}
+
+.mouse{
+    background: #d9f150;
+}
+.display_none{
+    display: none;
 }
