@@ -8,6 +8,33 @@ selectGame.addEventListener('click', (event) => {
 });
 
 
+const bin = {
+    right: 1,   // 0001
+    bottom: 2,  // 0010
+    left: 4,    // 0100
+    top: 8,     // 1000
+};
+const variants = {
+    toTop: bin.left | bin.right,     // 0101
+    toBottom: bin.left | bin.right,  // 0101
+    toLeft: bin.top | bin.bottom,    // 1010
+    toRight: bin.top | bin.bottom,   // 1010
+};
+const keyCodes = {
+    37: 'left',
+    39: 'right',
+    38: 'top',
+    40: 'bottom',
+};
+
+const keyUp = {
+    37: 'toLeft',
+    38: 'toTop',
+    39: 'toRight',
+    40: 'toBottom'
+};
+
+
 function createGamePlatform(size = 15) {
     const fieldSize = `${size * 20}px`;
     field.style.width = fieldSize;
@@ -34,7 +61,10 @@ function createGamePlatform(size = 15) {
     const mouse = new Mouse(size);
 
     document.addEventListener('keyup', (event) => {
-        snake.keyEvent = event.keyCode;
+        const validKey = Object.keys(keyCodes).includes(String(event.keyCode));
+        if (validKey) {
+            snake.keyEvent = event.keyCode;
+        }
     })
 }
 
@@ -49,41 +79,10 @@ class Snake {
         this.start();
     }
 
-     keyUp = {
-        37: 'toLeft',
-        38: 'toTop',
-        39: 'toRight',
-        40: 'toBottom'
-    };
-
     checkValidEvent(keyCode) {
-        let action;
-        if (!keyCode) return null;
+        if (!this.direction) return keyCode;
 
-        switch (this.direction) {
-            case 'toLeft':
-                if (keyCode === 37 || keyCode === 39) {
-                    action = 6887;
-                }
-                break;
-            case 'toTop':
-                if (keyCode === 40 || keyCode === 38) {
-                    action = 6887;
-                }
-                break;
-            case 'toRight':
-                if (keyCode === 37 || keyCode === 39) {
-                    action = 6887;
-                }
-                break;
-            case 'toBottom':
-                if (keyCode === 40 || keyCode === 38) {
-                    action = 6887;
-                }
-                break;
-        }
-
-        return action || keyCode;
+        return !!(variants[this.direction] & bin[keyCodes[keyCode]]) && keyCode;
     }
 
     toBottom() {
@@ -174,8 +173,8 @@ class Snake {
 
     start() {
         this.interval = setInterval(() => {
-            const action = this.checkValidEvent(this.keyEvent);
-            const event = this.keyUp[action];
+            const action = this.checkValidEvent(this.keyEvent) || 6886;
+            const event = keyUp[action];
             if (event) this.direction = event;
             this.keyEvent = null;
             if (this.direction) this[this.direction]();
