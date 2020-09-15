@@ -22,8 +22,8 @@ const variants = {
 };
 const keyCodes = {
     37: 'left',
-    39: 'right',
     38: 'top',
+    39: 'right',
     40: 'bottom',
 };
 
@@ -61,7 +61,7 @@ function createGamePlatform(size = 15) {
     const mouse = new Mouse(size);
 
     document.addEventListener('keyup', (event) => {
-        const validKey = Object.keys(keyCodes).includes(String(event.keyCode));
+        const validKey = keyCodes[event.keyCode];
         if (validKey) {
             snake.keyEvent = event.keyCode;
         }
