@@ -49,7 +49,7 @@ class Snake {
         this.start();
     }
 
-     keyUp = {
+    keyUp = {
         37: 'toLeft',
         38: 'toTop',
         39: 'toRight',
