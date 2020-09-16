@@ -1,9 +1,10 @@
-* {
+*{
     margin: 0 auto;
     box-sizing: border-box;
 }
 
-body {
+body{
+    background-color: #08F5B0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,6 +14,7 @@ body {
 #field {
     display: flex;
     flex-wrap: wrap;
+;
 }
 
 .excel {
@@ -20,17 +22,32 @@ body {
     height: 20px;
     border: 1px solid rgba(0, 0, 0, 0.23);
 }
-
 .snake {
-    background: #ff2d23;
-    border-radius: 8px;
+    background: #ca736f;
+    border-radius: 7px;
 }
 
-.mouse {
-    background-image: url("../css/image/mouse.jpg");
+.mouse{
+    background-image: url("../css/image/mouse.jpg") ;
     background-size: cover;
 }
-
-.display_none {
+.display_none{
     display: none;
+}
+h1{
+    color: #2c40a5;
+    margin-bottom: 20px;
+}
+.pause ,.select_game{
+    background: #32a9cd;
+    border: 1px solid #32a9cd ;
+    border-radius: 5px;
+    color: white;
+}
+.pause{
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+#check{
+    color: #2c40a5;
 }

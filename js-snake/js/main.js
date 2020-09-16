@@ -1,7 +1,6 @@
 const field = document.getElementById('field');
 const [selectGame] = document.getElementsByClassName('select_game');
 const check = document.getElementById('check');
-
 selectGame.addEventListener('click', (event) => {
     const size = Number(document.querySelector('input[name="snake"]:checked').value);
     createGamePlatform(size);
@@ -9,6 +8,14 @@ selectGame.addEventListener('click', (event) => {
 
 
 function createGamePlatform(size = 15) {
+    const pauseContainer = document.getElementById('pause')
+    const pause = document.createElement('div');
+    pause.innerText = 'PAUSE';
+    pause.classList.add('pause');
+    pauseContainer.appendChild(pause);
+    pause.addEventListener('click', ()=>{
+        snake.pause();
+    })
     const fieldSize = `${size * 20}px`;
     field.style.width = fieldSize;
     field.style.height = fieldSize;
@@ -36,6 +43,7 @@ function createGamePlatform(size = 15) {
     document.addEventListener('keyup', (event) => {
         snake.keyEvent = event.keyCode;
     })
+
 }
 
 class Snake {
@@ -49,7 +57,7 @@ class Snake {
         this.start();
     }
 
-     keyUp = {
+    static keyUp = {
         37: 'toLeft',
         38: 'toTop',
         39: 'toRight',
@@ -127,7 +135,6 @@ class Snake {
                 return new Mouse(this.size);
             }
         }
-
         newHead.classList.add('snake');
         this.snake.push(newHead);
         this.snake.shift().classList.remove('snake');
@@ -135,13 +142,14 @@ class Snake {
 
     boom() {
         clearInterval(this.interval);
-        alert('DEFEAT');
+        alert('GAME OVER');
         this.snake.forEach(element => element.classList.remove('snake'));
         let [mouse] = document.getElementsByClassName('mouse');
         const excel = document.querySelectorAll('.excel');
         const check = document.getElementById('check');
+        const pause = document.querySelector('.pause');
+        pause.remove();
         mouse.classList.remove('mouse');
-
         excel.forEach(element => element.remove());
         check.classList.remove('display_none');
         this.snake = [];
@@ -175,11 +183,15 @@ class Snake {
     start() {
         this.interval = setInterval(() => {
             const action = this.checkValidEvent(this.keyEvent);
-            const event = this.keyUp[action];
+            const event = Snake.keyUp[action];
             if (event) this.direction = event;
             this.keyEvent = null;
             if (this.direction) this[this.direction]();
         }, 300)
+    }
+
+    pause(){
+        this.direction = null;
     }
 }
 
@@ -204,5 +216,7 @@ class Mouse {
             this.generateMouseCoordinates();
         }
         this.mouse.classList.add('mouse');
+
     }
+
 }
