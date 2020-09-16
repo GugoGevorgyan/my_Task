@@ -20,6 +20,8 @@ level.classList.add('size');
 level.innerText = 'level';
 levelContent.innerText = '1';
 level.appendChild(levelContent);
+
+
 let mySnake = null;
 let myMouse = null;
 
@@ -30,15 +32,14 @@ selectGame.addEventListener('click', (event) => {
 
 
 function createGamePlatform(size = 15) {
-    const pauseContainer = document.getElementById('pause')
+    const pauseContainer = document.getElementById('pause');
     const pause = document.createElement('div');
     pause.innerText = 'PAUSE';
     pause.classList.add('pause');
     pauseContainer.appendChild(pause);
     pause.addEventListener('click', () => {
         mySnake.pause();
-        // snake.pause();
-    })
+    });
     signboard.appendChild(level);
     signboard.appendChild(count);
     signboard.appendChild(record);
@@ -49,13 +50,11 @@ function createGamePlatform(size = 15) {
     let y = size;
 
     for (let i = 0; i < size ** 2; i += 1) {
-        const excel = document.createElement('div');
-
         if (x > size) {
             x = 1;
             y -= 1
         }
-
+        const excel = document.createElement('div');
         excel.setAttribute('posX', x);
         excel.setAttribute('posY', y);
         excel.classList.add('excel');
@@ -63,24 +62,23 @@ function createGamePlatform(size = 15) {
         x += 1;
     }
     check.classList.add('display_none');
-    // const snake = new Snake(size);
-    // const mouse = new Mouse(size);
     mySnake = new Snake(size);
     myMouse = new Mouse(size);
 
     document.addEventListener('keyup', directed, false);
-    // => {
-    //     // snake.keyEvent = event.keyCode;
-    //     // snake.start();
-    //     mySnake.keyEvent = event.keyCode;
-    //     mySnake.start();
-    // })
+}
 
-}
 function directed(event) {
-    mySnake.keyEvent = event.keyCode;
-    mySnake.start();
+    if (Snake.keyUp[event.keyCode]) {
+        mySnake.keyEvent = event.keyCode;
+        if (!mySnake.direction) mySnake.start();
+        if (mySnake.pauseDirection) {
+            mySnake.keyEvent = mySnake.pauseDirection;
+            mySnake.start();
+        }
+    }
 }
+
 class Snake {
     constructor(size) {
         this.snakeRecord = localStorage.getItem("gameSnakeRecord");
@@ -89,10 +87,10 @@ class Snake {
         this.snake = [];
         this.interval = null;
         this.direction = null;
+        this.pauseDirection = null;
         this.keyEvent = null;
-        this.speed = 300;
+        this.speed = 450;
         this.createSnake();
-        // this.start();
     }
 
     static keyUp = {
@@ -103,6 +101,7 @@ class Snake {
     };
 
     checkValidEvent(keyCode) {
+        console.log(2);
         let action = false;
         if (!keyCode) return null;
 
@@ -181,28 +180,19 @@ class Snake {
         clearInterval(this.interval);
         myMouse = null;
         mySnake = null;
-        alert('GAME OVER');
-        this.snake.forEach(element => element.classList.remove('snake'));
-        let [mouse] = document.getElementsByClassName('mouse');
+        alert("GAME OVER   MAX -> " + countContent.innerText);
         const excel = document.querySelectorAll('.excel');
-        let signboards = document.querySelectorAll('.size');
+        let signboard = document.querySelectorAll('.size');
         const check = document.getElementById('check');
         const pause = document.querySelector('.pause');
         pause.remove();
-        mouse.classList.remove('mouse');
         excel.forEach(element => element.remove());
-        signboards.forEach(element => element.remove());
+        signboard.forEach(element => element.remove());
         check.classList.remove('display_none');
-        this.snakeRecord = localStorage.getItem("gameSnakeRecord");
-        this.snake = [];
-        this.interval = null;
         this.direction = null;
-        this.keyEvent = null;
         countContent.innerText = '1';
         levelContent.innerText = '1';
         document.removeEventListener('keyup', directed, false);
-        myMouse = null;
-        mySnake = null;
     }
 
     createSnake() {
@@ -230,23 +220,21 @@ class Snake {
     }
 
     start() {
-        const action = this.checkValidEvent(this.keyEvent);
-        // if (typeof action !== "number") return;
-        if (!Snake.keyUp[action]) return;
-        const event = Snake.keyUp[action];
-        if (event) this.direction = event;
-        this.keyEvent = null;
-        if (this.direction) {
-            if (this.interval && this.direction === event) clearInterval(this.interval);
-            this.interval = setInterval(() => {
-                this[this.direction]();
-            }, this.speed)
-        }
-
+        this.pauseDirection = null;
+        console.log(0);
+        this.interval = setInterval(() => {
+            console.log(1);
+            const action = this.checkValidEvent(this.keyEvent);
+            const event = Snake.keyUp[action];
+            if (event) this.direction = event;
+            this.keyEvent = null;
+            if (this.direction) this[this.direction]();
+        }, this.speed)
     }
 
     pause() {
         clearInterval(this.interval);
+        this.pauseDirection = this.direction;
     }
 
     count() {
@@ -264,17 +252,24 @@ class Snake {
     level() {
         let level = Number(levelContent.innerText);
         levelContent.innerText = level + 1;
-        this.speed -= 50;
+        this.speed -= 100;
+        clearInterval(this.interval);
+        this.start();
     }
 
     records() {
         let snakeLength = this.snake.length;
-        if (!this.snakeRecord) this.snakeRecord = snakeLength;
-        if (this.snakeRecord < snakeLength) {
-            this.snakeRecord = snakeLength;
-            recordContent.innerText = this.snakeRecord;
-            localStorage.setItem('gameSnakeRecord', snakeLength);
-        }
+        if (!this.getStorage() || this.getStorage() < snakeLength) this.setStorage(snakeLength);
+    }
+
+    setStorage(storageValue) {
+        localStorage.setItem('gameSnakeRecord', storageValue);
+        this.snakeRecord = this.getStorage();
+        recordContent.innerText = this.snakeRecord;
+    }
+
+    getStorage() {
+        return localStorage.getItem("gameSnakeRecord");
     }
 }
 
@@ -299,7 +294,6 @@ class Mouse {
             this.generateMouseCoordinates();
         }
         this.mouse.classList.add('mouse');
-
     }
 
 
