@@ -34,7 +34,10 @@ function createGamePlatform(size = 15) {
     const mouse = new Mouse(size);
 
     document.addEventListener('keyup', (event) => {
-        snake.keyEvent = event.keyCode;
+        if (Snake.keyUp[event.keyCode]) {
+            snake.keyEvent = event.keyCode;
+            if (!snake.direction) snake.start();
+        }
     })
 }
 
@@ -46,10 +49,9 @@ class Snake {
         this.direction = null;
         this.keyEvent = null;
         this.createSnake();
-        this.start();
     }
 
-    keyUp = {
+  static keyUp = {
         37: 'toLeft',
         38: 'toTop',
         39: 'toRight',
@@ -58,6 +60,7 @@ class Snake {
 
     checkValidEvent(keyCode) {
         let action;
+        console.log(2);
         if (!keyCode) return null;
 
         switch (this.direction) {
@@ -174,8 +177,9 @@ class Snake {
 
     start() {
         this.interval = setInterval(() => {
+            console.log(1);
             const action = this.checkValidEvent(this.keyEvent);
-            const event = this.keyUp[action];
+            const event = Snake.keyUp[action];
             if (event) this.direction = event;
             this.keyEvent = null;
             if (this.direction) this[this.direction]();
