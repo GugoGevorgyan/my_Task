@@ -1,6 +1,28 @@
 const field = document.getElementById('field');
 const [selectGame] = document.getElementsByClassName('select_game');
 const check = document.getElementById('check');
+const signboard = document.getElementById('signboard');
+const record = document.createElement('div');
+const recordContent = document.createElement('p');
+const count = document.createElement('div');
+const level = document.createElement('div');
+const levelContent = document.createElement('p');
+const countContent = document.createElement('p');
+record.classList.add('size');
+record.innerText = 'record';
+recordContent.innerText = localStorage.getItem("gameSnakeRecord") || 1;
+record.appendChild(recordContent);
+count.classList.add('size');
+count.innerText = 'count';
+countContent.innerText = '1';
+count.appendChild(countContent);
+level.classList.add('size');
+level.innerText = 'level';
+levelContent.innerText = '1';
+level.appendChild(levelContent);
+let mySnake = null;
+let myMouse = null;
+
 selectGame.addEventListener('click', (event) => {
     const size = Number(document.querySelector('input[name="snake"]:checked').value);
     createGamePlatform(size);
@@ -13,9 +35,13 @@ function createGamePlatform(size = 15) {
     pause.innerText = 'PAUSE';
     pause.classList.add('pause');
     pauseContainer.appendChild(pause);
-    pause.addEventListener('click', ()=>{
-        snake.pause();
+    pause.addEventListener('click', () => {
+        mySnake.pause();
+        // snake.pause();
     })
+    signboard.appendChild(level);
+    signboard.appendChild(count);
+    signboard.appendChild(record);
     const fieldSize = `${size * 20}px`;
     field.style.width = fieldSize;
     field.style.height = fieldSize;
@@ -37,24 +63,36 @@ function createGamePlatform(size = 15) {
         x += 1;
     }
     check.classList.add('display_none');
-    const snake = new Snake(size);
-    const mouse = new Mouse(size);
+    // const snake = new Snake(size);
+    // const mouse = new Mouse(size);
+    mySnake = new Snake(size);
+    myMouse = new Mouse(size);
 
-    document.addEventListener('keyup', (event) => {
-        snake.keyEvent = event.keyCode;
-    })
+    document.addEventListener('keyup', directed, false);
+    // => {
+    //     // snake.keyEvent = event.keyCode;
+    //     // snake.start();
+    //     mySnake.keyEvent = event.keyCode;
+    //     mySnake.start();
+    // })
 
 }
-
+function directed(event) {
+    mySnake.keyEvent = event.keyCode;
+    mySnake.start();
+}
 class Snake {
     constructor(size) {
+        this.snakeRecord = localStorage.getItem("gameSnakeRecord");
+        this.increment = 1;
         this.size = size;
         this.snake = [];
         this.interval = null;
         this.direction = null;
         this.keyEvent = null;
+        this.speed = 300;
         this.createSnake();
-        this.start();
+        // this.start();
     }
 
     static keyUp = {
@@ -65,32 +103,31 @@ class Snake {
     };
 
     checkValidEvent(keyCode) {
-        let action;
+        let action = false;
         if (!keyCode) return null;
 
         switch (this.direction) {
             case 'toLeft':
                 if (keyCode === 37 || keyCode === 39) {
-                    action = 6887;
+                    action = true;
                 }
                 break;
             case 'toTop':
                 if (keyCode === 40 || keyCode === 38) {
-                    action = 6887;
+                    action = true;
                 }
                 break;
             case 'toRight':
                 if (keyCode === 37 || keyCode === 39) {
-                    action = 6887;
+                    action = true;
                 }
                 break;
             case 'toBottom':
                 if (keyCode === 40 || keyCode === 38) {
-                    action = 6887;
+                    action = true;
                 }
                 break;
         }
-
         return action || keyCode;
     }
 
@@ -142,19 +179,30 @@ class Snake {
 
     boom() {
         clearInterval(this.interval);
+        myMouse = null;
+        mySnake = null;
         alert('GAME OVER');
         this.snake.forEach(element => element.classList.remove('snake'));
         let [mouse] = document.getElementsByClassName('mouse');
         const excel = document.querySelectorAll('.excel');
+        let signboards = document.querySelectorAll('.size');
         const check = document.getElementById('check');
         const pause = document.querySelector('.pause');
         pause.remove();
         mouse.classList.remove('mouse');
         excel.forEach(element => element.remove());
+        signboards.forEach(element => element.remove());
         check.classList.remove('display_none');
+        this.snakeRecord = localStorage.getItem("gameSnakeRecord");
         this.snake = [];
         this.interval = null;
         this.direction = null;
+        this.keyEvent = null;
+        countContent.innerText = '1';
+        levelContent.innerText = '1';
+        document.removeEventListener('keyup', directed, false);
+        myMouse = null;
+        mySnake = null;
     }
 
     createSnake() {
@@ -176,22 +224,57 @@ class Snake {
             nextExcel.classList.remove('mouse');
             nextExcel.classList.add('snake');
             this.snake.push(nextExcel);
+            this.count();
             return nextExcel;
         }
     }
 
     start() {
-        this.interval = setInterval(() => {
-            const action = this.checkValidEvent(this.keyEvent);
-            const event = Snake.keyUp[action];
-            if (event) this.direction = event;
-            this.keyEvent = null;
-            if (this.direction) this[this.direction]();
-        }, 300)
+        const action = this.checkValidEvent(this.keyEvent);
+        // if (typeof action !== "number") return;
+        if (!Snake.keyUp[action]) return;
+        const event = Snake.keyUp[action];
+        if (event) this.direction = event;
+        this.keyEvent = null;
+        if (this.direction) {
+            if (this.interval && this.direction === event) clearInterval(this.interval);
+            this.interval = setInterval(() => {
+                this[this.direction]();
+            }, this.speed)
+        }
+
     }
 
-    pause(){
-        this.direction = null;
+    pause() {
+        clearInterval(this.interval);
+    }
+
+    count() {
+        this.increment++;
+        let snakeLength = this.snake.length;
+        countContent.innerText = snakeLength;
+        if (this.increment === 5) {
+            this.increment = 0;
+            this.level();
+        }
+        this.records();
+
+    }
+
+    level() {
+        let level = Number(levelContent.innerText);
+        levelContent.innerText = level + 1;
+        this.speed -= 50;
+    }
+
+    records() {
+        let snakeLength = this.snake.length;
+        if (!this.snakeRecord) this.snakeRecord = snakeLength;
+        if (this.snakeRecord < snakeLength) {
+            this.snakeRecord = snakeLength;
+            recordContent.innerText = this.snakeRecord;
+            localStorage.setItem('gameSnakeRecord', snakeLength);
+        }
     }
 }
 
@@ -218,5 +301,6 @@ class Mouse {
         this.mouse.classList.add('mouse');
 
     }
+
 
 }
