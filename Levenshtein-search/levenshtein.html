@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css">
+    <title>livenshtein-search</title>
 </head>
 <body>
+<form action="" id="search_form">
+    <label for="search">search</label>
+    <input type="text" id="search" name="search" maxlength="15" placeholder="language = us">
+    <input type="submit" id="submit" value="submit">
+
+</form>
+<div id="search_content">
+    <p id="count_res"></p>
+</div>
 <script src="js/levenshtein.js"></script>
 </body>
 </html>
